@@ -63,11 +63,11 @@ const tests = [
     }
 ];
 
-app.get('/laboratory/tests', (req, res) => {
+const fetchLaboratoryTests = (req, res) => {
     res.send(tests);
-});
+};
 
-app.get('/laboratory/tests/:testId', (req, res) => {
+const fetchLaboratoryTestById = (req, res) => {
     const testId = req.params.testId;
     const test = tests.find(t => t.id == testId);
     if (!test) {
@@ -75,7 +75,11 @@ app.get('/laboratory/tests/:testId', (req, res) => {
     } else {
         res.send(test);
     }
-});
+};
+
+app.get('/laboratory/tests', fetchLaboratoryTests);
+app.get('/laboratory/tests/:testId', fetchLaboratoryTestById);
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
