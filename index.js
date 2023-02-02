@@ -100,10 +100,22 @@ const modifyExistingLaboratoryTest = (req, res) => {
     res.send(test);
 };
 
+// Delete a test
+const deleteLaboratoryTest = (req, res) => {
+    const test = tests.find(t => t.id === parseInt(req.params.id));
+    if (!test) res.status(404).send('The test with the given ID was not found.');
+
+    const index = tests.indexOf(test);
+    tests.splice(index, 1);
+
+    res.send(test);
+};
+
 app.get('/laboratory/tests', fetchLaboratoryTests);
 app.get('/laboratory/tests/:testId', fetchLaboratoryTestById);
 app.post('/laboratory/tests', addLaboratoryTest);
 app.put('/laboratory/tests/:id', modifyExistingLaboratoryTest);
+app.delete('/laboratory/tests/:id', deleteLaboratoryTest);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
