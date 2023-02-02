@@ -90,9 +90,20 @@ const addLaboratoryTest = (req, res) => {
     res.send(test);
 };
 
+const modifyExistingLaboratoryTest = (req, res) => {
+    const test = tests.find(t => t.id === parseInt(req.params.id));
+    if (!test) res.status(404).send('The test with the given ID was not found.');
+
+    test.name = req.body.name;
+    test.price = req.body.price;
+    test.subTests = req.body.subTests;
+    res.send(test);
+};
+
 app.get('/laboratory/tests', fetchLaboratoryTests);
 app.get('/laboratory/tests/:testId', fetchLaboratoryTestById);
 app.post('/laboratory/tests', addLaboratoryTest);
+app.put('/laboratory/tests/:id', modifyExistingLaboratoryTest);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
