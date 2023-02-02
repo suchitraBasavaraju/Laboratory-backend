@@ -67,7 +67,15 @@ app.get('/laboratory/tests', (req, res) => {
     res.send(tests);
 });
 
-
+app.get('/laboratory/tests/:testId', (req, res) => {
+    const testId = req.params.testId;
+    const test = tests.find(t => t.id == testId);
+    if (!test) {
+        res.status(404).send('Invalid test ID');
+    } else {
+        res.send(test);
+    }
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
