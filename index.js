@@ -1,5 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+app.use(bodyParser.json());
 const port = 3000;
 
 
@@ -77,8 +79,20 @@ const fetchLaboratoryTestById = (req, res) => {
     }
 };
 
+const addLaboratoryTest = (req, res) => {
+    const test = {
+        id: tests.length + 1,
+        name: req.body.name,
+        price: req.body.price,
+        subTests: req.body.subTests
+    };
+    tests.push(test);
+    res.send(test);
+};
+
 app.get('/laboratory/tests', fetchLaboratoryTests);
 app.get('/laboratory/tests/:testId', fetchLaboratoryTestById);
+app.post('/laboratory/tests', addLaboratoryTest);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
